@@ -23,14 +23,17 @@ services:
     container_name: springboot-mongo
 #    ports:  # for demo/debug purpose only
 #      - 27018:27017
-    volumes:
+       volumes:
       - data:/data/db
-      - data-bkp:/data/db
-   restart: always
+      - data-bkp:/data/bkp
+    restart: always
     
 volumes:
+  data:
+    #external: true
   data-bkp:
-    external: true
+    #external: true
+
     
 networks:
   default:
