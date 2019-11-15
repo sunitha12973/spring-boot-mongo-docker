@@ -22,7 +22,7 @@ services:
     image: mongo
     container_name: springboot-mongo
 #    ports:  # for demo/debug purpose only
-#      - 27018:27017
+     - 27018:27017
        volumes:
       - data:/data/db
       - data-bkp:/data/bkp
