@@ -24,7 +24,8 @@ services:
 #    ports:  # for demo/debug purpose only
 #      - 27018:27017
     volumes:
-      - data-bkp:/data/db
+      - data:/data/db
+      - data-bkp:/data/dkp
    restart: always
     
 volumes:
