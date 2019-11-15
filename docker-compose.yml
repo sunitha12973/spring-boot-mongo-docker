@@ -25,7 +25,7 @@ services:
 #      - 27018:27017
     volumes:
       - data:/data/db
-      - data-bkp:/data/dkp
+      - data-bkp:/data/db
    restart: always
     
 volumes:
