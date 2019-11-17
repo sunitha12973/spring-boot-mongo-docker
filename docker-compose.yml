@@ -25,12 +25,12 @@ services:
       - 27018:27017
     volumes:
       - data:/data/db
-      - data-bkp:/data/bkp
+      - data-bkp:/data/db
     restart: always
     
 volumes:
   data:
-    external: true
+    #external: true
   data-bkp:
     external: true
     
