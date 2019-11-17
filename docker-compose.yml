@@ -21,8 +21,8 @@ services:
   mongo:
     image: mongo
     container_name: mongo
-#    ports:  # for demo/debug purpose only
-#      - 27018:27017
+    ports:   
+      - 27018:27017
     volumes:
       - data:/data/db
       - data-bkp:/data/bkp
