@@ -24,14 +24,14 @@ services:
     ports:   
       - 27018:27017
     volumes:
-      - data:/data/db
-      - data-bkp:/data/db
+      - ebsvolume: /data/db
     restart: always
     
 volumes:
-  data:
+  #data:
     #external: true
-  data-bkp:
+  ebsvolume:
+    driver: rexray/ebs
     external: true
     
 networks:
