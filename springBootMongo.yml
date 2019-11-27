@@ -61,7 +61,7 @@ spec:
       - name: mongo-persistent-storage
         nfs:
           server: 172.31.35.86
-         path: "/mnt/share"
+          path: "/mnt/share/"
 ---
 # Mongo Node Port RC
 apiVersion: v1
