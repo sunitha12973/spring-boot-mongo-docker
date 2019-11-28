@@ -1,29 +1,28 @@
 node{
-    stage('Checkout'){
-        git credentialsId: '2143b089-9a7a-41d6-b43f-d715dae29e88', url: 'https://github.com/kareemsolutions-ep/spring-boot-mongo-docker.git'
-    }
-    stage(" Maven Clean Package"){
-      def mavenHome =  tool name: "Maven-3.6.2", type: "maven"
-      def mavenCMD = "${mavenHome}/bin/mvn"
-      sh "${mavenCMD} clean package"
-    } 
-    stage("Build Dokcer Image") {
-         sh "docker build -t akareem225/spring-boot-mongo ."
-    }
-    
-    stage("Docker Push"){
-         withCredentials([string(credentialsId: 'fe76dab3-fa46-4edd-a80c-042032e8428c', variable: 'Docker_Hub_Pwd')]) {
+    stage('Git Clone'){
+    git credentialsId: 'GIT_CREDENTIALS', url: 'https://github.com/kareemsolutions-ep/spring-boot-mongo-docker.git'
+}
+stage('Build Maven'){
+def Maven_Home = tool name:"Maven-3.6.1"
+sh "${Maven_Home}/bin/mvn clean package"
+}
+stage('Create Docker Image'){
+             sh "docker build -t akareem225/spring-boot-mongo ."
+}
+stage('Push Image into Docker Hub'){
+withCredentials([string(credentialsId: 'DOCKER_HUB_PWD', variable: 'DOCKER_HUB_PWD')]) {
 
-          sh "docker login -u akareem225 -p ${Docker_Hub_Pwd}"
+          sh "docker login -u akareem225 -p ${DOCKER_HUB_PWD}"
         }
         sh "docker push akareem225/spring-boot-mongo"
-        
-    }
-        stage("Deploy to docker swarm cluster"){
-        sshagent(['Docker_Swarm_Manager_Dev']) {
-		    sh 'scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@172.31.4.121:'
-	        sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.4.121 docker stack rm springboot '
-                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.4.121 docker stack deploy --prune --compose-file docker-compose.yml springboot'
+            
+        }
+        stage('Deploy into Docker Cluster'){
+            sshagent(['Docker_Swarm_Manager_Dev']) {
+		    sh 'ssh -o StrictHostKeyChecking=no docker-compose.yml ubuntu@172.31.32.242:'
+	        sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.32.242 docker stack rm springboot '
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.32.242 docker stack deploy --prune --compose-file docker-compose.yml springboot'
         }
     }
-}
+            
+        }
