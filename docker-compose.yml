@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   springboot:
-    image: akareem225/spring-boot-mongo:latest
+    image: docker12973/spring-boot-mongo:latest
     restart: always
     container_name: springboot
     ports:
@@ -24,16 +24,13 @@ services:
     ports:   
       - 27018:27017
     volumes:
-      - ebsvolume:/data/db
+      - ebsvolume: /data/db
     restart: always
     
 volumes:
   #data:
     #external: true
-  ebsvolume:
-    driver: rexray/ebs
-    external: true
-    
+ # ebsvolume:  
 networks:
   default:
     external:
